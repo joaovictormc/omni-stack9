@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { withNavigation } from 'react-navigation';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-
+import { withNavigation } from 'react-navigation';
 import api from '../services/api';
 
 function SpotList({ tech, navigation }) {
@@ -26,7 +25,8 @@ function SpotList({ tech, navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Empresas que usam <Text style={styles.bold}>{tech}</Text></Text>
-            <FlatList  
+
+            <FlatList 
                 style={styles.list}
                 data={spots}
                 keyExtractor={spot => spot._id}
@@ -45,12 +45,12 @@ function SpotList({ tech, navigation }) {
                 )}
             />
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 40,
+        marginTop: 40
     },
 
     title: {
@@ -107,5 +107,6 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
 });
+
 
 export default withNavigation(SpotList);

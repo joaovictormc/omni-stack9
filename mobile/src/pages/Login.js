@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage, KeyboardAvoidingView, Image, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, AsyncStorage, Platform, View, Text, Image, TextInput, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import api from '../services/api';
 import logoImg from '../assets/logo.png';
 
@@ -11,9 +11,9 @@ export default function Login({ navigation }) {
         AsyncStorage.getItem('user').then(user => {
             if (user) {
                 navigation.navigate('List');
-            }
-        });
-    }, []);
+            } 
+        })
+    }, [])
 
     async function handleSubmit() {
         const response = await api.post('/sessions', {
@@ -23,20 +23,19 @@ export default function Login({ navigation }) {
         const { _id } = response.data;
         await AsyncStorage.setItem('user', _id);
         await AsyncStorage.setItem('techs', techs);
-
         navigation.navigate('List');
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <StatusBar hidden={true} />
+        <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
+            <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
             <Image source={logoImg} />
 
             <View style={styles.form}>
                 <Text style={styles.label}>SEU E-MAIL *</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="Seu E-mail"
+                    placeholder="Seu e-mail"
                     placeholderTextColor="#d3d3d3"
                     keyboardType="email-address"
                     autoCapitalize="none"
@@ -48,7 +47,7 @@ export default function Login({ navigation }) {
                 <Text style={styles.label}>TECNOLOGIAS *</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="Tecnologias do seu interesse"
+                    placeholder="Tecnologias de interesse"
                     placeholderTextColor="#d3d3d3"
                     autoCapitalize="words"
                     autoCorrect={false}
@@ -76,12 +75,12 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         paddingHorizontal: 30,
         marginTop: 30
-    },
+    }, 
 
     label: {
         fontWeight: 'bold',
         color: '#FFF',
-        marginBottom: 8,
+        marginBottom: 8
     },
 
     input: {
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
         height: 44,
         marginBottom: 20,
-        borderRadius: 2,
+        borderRadius: 2
     },
 
     button: {
@@ -100,12 +99,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#f05a5b',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 2,
+        borderRadius: 2
     },
 
     buttonText: {
-        color: '#FFF',
+        color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
     },
-})
+});

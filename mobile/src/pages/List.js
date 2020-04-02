@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import socketio from 'socket.io-client';
-import { Alert, SafeAreaView, Image, StyleSheet, AsyncStorage, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Image, AsyncStorage, StyleSheet, StatusBar, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import SpotList from '../components/SpotList';
 import logoImg from '../assets/logo.png';
 
 
 export default function List({ navigation }) {
     const [techs, setTechs] = useState([]);
+
 
     useEffect(() => {
         AsyncStorage.getItem('user').then(user_id => {
@@ -20,6 +21,7 @@ export default function List({ navigation }) {
         });
     }, []);
 
+
     useEffect(() => {
         AsyncStorage.getItem('techs').then(storagedTechs => {
             const techsArray = storagedTechs.split(',').map(tech => tech.trim());
@@ -28,36 +30,39 @@ export default function List({ navigation }) {
         })
     }, []);
 
-            
+
     async function handleBack() {
-        AsyncStorage.clear('email');
+        AsyncStorage.clear('email')
+        Alert.alert('Desconectado!');
         navigation.navigate('Login');
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar hidden={true} />
-            <TouchableOpacity onPress={() => handleBack()}>
-                <Image style={styles.logoImg} source={logoImg} />
-            </TouchableOpacity>
+            <StatusBar backgroundColor="#2b2c30" barStyle="ligth-content" />
             
+            <TouchableOpacity onPress={() => handleBack()}>
+                <Image style={styles.logo} source={logoImg} />
+            </TouchableOpacity>
+
             <ScrollView>
                 {techs.map(tech => <SpotList key={tech} tech={tech} />)}
             </ScrollView>
         </SafeAreaView>
-    )
+    );  
 }
 
-const styles = StyleSheet.create({  
+
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#2b2c30'
     },
 
-    logoImg: {
+    logo: {
         height: 42,
         resizeMode: "contain",
         alignSelf: 'center',
         marginTop: 10
     },
-})
+});

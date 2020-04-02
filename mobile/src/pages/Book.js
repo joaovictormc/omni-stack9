@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
-import { Alert, SafeAreaView, AsyncStorage, TextInput, Text, Image, StyleSheet, TouchableOpacity, StatusBar, View} from 'react-native';
+import { View, Text, Image, AsyncStorage, StyleSheet, SafeAreaView, TextInput, StatusBar, TouchableOpacity, Alert } from 'react-native';
 import logoImg from '../assets/logo.png';
 import api from '../services/api';
+
 
 export default function Book({ navigation }) {
     const [date, setDate] = useState('');
     const id = navigation.getParam('id');
 
+
     async function handleSubmit() {
         const user_id = await AsyncStorage.getItem('user');
-
+    
         await api.post(`/spots/${id}/bookings`, {
             date
         }, {
             headers: { user_id }
-        });
+        })
 
-        Alert.alert('Solicitação de reserva enviada!');
+        Alert.alert('Solicitação enviada com sucesso!');
+
         navigation.navigate('List');
     }
+
 
     function handleCancel() {
         navigation.navigate('List');
@@ -26,48 +30,48 @@ export default function Book({ navigation }) {
 
     return (
         <View style={styles.tela}>
+            <StatusBar backgroundColor="#2b2c30" barStyle="ligth-content" />
             <SafeAreaView style={styles.container}>
-                <StatusBar hidden={true} />
                 <Image style={styles.logoImg} source={logoImg} />
-                
+
                 <Text style={styles.label}>DATA DE INTERESSE *</Text>
-                    <TextInput 
-                        style={styles.input}
-                        placeholder="Qual data você quer reservar?"
-                        placeholderTextColor="#999"
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        value={date}
-                        onChangeText={setDate}
-                    />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Qual data você quer reservar?"
+                    placeholderTextColor="#999"
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    value={date}
+                    onChangeText={setDate}
+                />
 
-                    <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-                        <Text style={styles.buttonText}>Solicitar reserva</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                    <Text style={styles.buttonText}>Solicitar reserva</Text>
+                </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleCancel} style={[styles.button, styles.cancelButton]}>
-                        <Text style={styles.buttonText}>Cancelar</Text>
-                    </TouchableOpacity>
-            </SafeAreaView>
+                <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
+                    <Text style={styles.buttonText}>Cancelar</Text>
+                </TouchableOpacity>
+        </SafeAreaView>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
+    container: {
+        margin: 30
+    },
+
     tela: {
         flex: 1,
-        backgroundColor: '#2b2c30', 
-    },
-    
-    container: {
-        margin: 30,
+        backgroundColor: '#2b2c30'
     },
 
     logoImg: {
         height: 42,
         resizeMode: "contain",
-        alignSelf: 'center',
-        marginTop: 10
+        alignSelf: 'center'
     },
 
     label: {
@@ -80,9 +84,9 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: '#ddd',
-        color: '#FFF',
         paddingHorizontal: 20,
         fontSize: 16,
+        color: '#FFF',
         height: 44,
         marginBottom: 20,
         borderRadius: 2
@@ -97,15 +101,17 @@ const styles = StyleSheet.create({
     },
 
     cancelButton: {
+        height: 42,
         backgroundColor: '#ccc',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2,
         marginTop: 10
     },
 
     buttonText: {
-        color: '#FFF',
+        color: '#fff',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
     },
-
-
 });

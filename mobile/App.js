@@ -1,6 +1,5 @@
 import React from 'react';
 import { YellowBox } from 'react-native';
-
 import Routes from './src/routes';
 
 YellowBox.ignoreWarnings([
@@ -8,5 +7,8 @@ YellowBox.ignoreWarnings([
 ]);
 
 export default function App() {
-  return <Routes />
+  return (
+    <Routes />
+  );
 }
+

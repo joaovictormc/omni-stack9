@@ -1,9 +1,7 @@
 {
   "expo": {
     "name": "AirCnC",
-    "slug": "aircnc",
-    "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "slug": "AirCnC",
     "platforms": [
       "ios",
       "android",
@@ -16,7 +14,6 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#f05a5b"
-      
     },
     "updates": {
       "fallbackToCacheTimeout": 0
